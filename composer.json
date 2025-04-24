@@ -3,15 +3,20 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": [
-        "laravel",
-        "framework"
-    ],
+    "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "filament/filament": "^3.3",
+        "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "hasnayeen/themes": "^3.0",
+        "khanamiryan/qrcode-detector-decoder": "^2.0",
+        "knuckleswtf/scribe": "^5.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.10.1",
+        "nutgram/laravel": "^1.5",
+        "spatie/laravel-medialibrary": "^11.12"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^2.0",
@@ -39,7 +44,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -61,9 +67,13 @@
             "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "php artisan key:generate",
             "php artisan config:cache",
-            "php artisan migrate",
+            "php artisan migrate --force",
             "npm install",
-            "npm run build"
+            "npm run build",
+            "php artisan storage:link",
+            "php artisan scribe:generate",
+            "php artisan optimize",
+            "php artisan filament:optimize"
         ]
     },
     "extra": {

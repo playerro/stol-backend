@@ -122,5 +122,8 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+    'web_app_link' => env('WEB_APP_LINK'),
+    'telegram' => [
+        'bot_username' => env('BOT_USERNAME'),
+    ]
 ];

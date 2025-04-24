@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Receipt;
+use App\Observers\ReceiptObserver;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        URL::forceScheme('https');
+        request()->server->set('HTTPS', request()->header('X-Forwarded-Proto', 'https') == 'https' ? 'on' : 'off');
+        Receipt::observe(ReceiptObserver::class);
     }
 }

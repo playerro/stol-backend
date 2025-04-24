@@ -1,0 +1,112 @@
+name: Отзывы
+description: 'Оставление отзывов на чеки'
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/reviews
+    metadata:
+      groupName: Отзывы
+      groupDescription: 'Оставление отзывов на чеки'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Оставить отзыв на чек'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      code:
+        name: code
+        description: 'UUID пользователя. Пример: 123e4567-e89b-12d3-a456-426614174000'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      code: architecto
+    bodyParameters:
+      receipt_id:
+        name: receipt_id
+        description: 'UUID чека. Пример: 019668b1-9b61-72a3-8904-61dcda70cd81'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      rating:
+        name: rating
+        description: 'Оценка от 1 до 5.'
+        required: true
+        example: 16
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      text:
+        name: text
+        description: 'Текст отзыва (макс. 2000 символов).'
+        required: false
+        example: architecto
+        type: string|null
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      receipt_id: architecto
+      rating: 16
+      text: architecto
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "data": {
+              "id": "d4f3a2b1-5c6d-7e8f-1234-abcdef567890",
+              "receipt_id": "019668b1-9b61-72a3-8904-61dcda70cd81",
+              "rating": 5,
+              "text": "Отличный ресторан, рекомендую!",
+              "created_at": "2025-04-27T12:34:56.000000Z"
+            }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+            "message": "Произошла ошибка",
+            "error": "Чек не принадлежит вам."
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: |-
+          {
+            "message": "Произошла ошибка сервера",
+            "error": "Произошла ошибка сервера"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

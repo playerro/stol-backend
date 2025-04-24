@@ -1,0 +1,281 @@
+name: Чеки
+description: 'Всё, что связано с чеками ресторанных посещений'
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/receipts
+    metadata:
+      groupName: Чеки
+      groupDescription: 'Всё, что связано с чеками ресторанных посещений'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Загрузка чека'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      code:
+        name: code
+        description: 'UUID пользователя. Пример: 123e4567-e89b-12d3-a456-426614174000'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      code: architecto
+    bodyParameters:
+      receipt:
+        name: receipt
+        description: 'Must be a file.'
+        required: true
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters: []
+    fileParameters:
+      receipt: null
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+          "message": "Чек отправлен на модерацию",
+          "points": 10,
+          "id": 1
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+          "message": "Произошла ошибка"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+          "message": "Пользователь не найден"
+          }
+          /
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+          "message": "Описание доменной ошибки"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/receipts/history
+    metadata:
+      groupName: Чеки
+      groupDescription: 'Всё, что связано с чеками ресторанных посещений'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'История сканированных чеков'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      code:
+        name: code
+        description: 'UUID пользователя. Пример: 123e4567-e89b-12d3-a456-426614174000'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      code: architecto
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "data": [
+              {
+                "id": "019668b1-9b61-72a3-8904-61dcda70cd81",
+                "total_sum": 1500.20,
+                "points": 15,
+                "status": "approved",
+                "created_at": "2025-04-25T14:12:00Z",
+                "restaurant": {
+                  "id": "b2d5f7a4-3e56-4c1e-9c3b-123456789abc",
+                  "inn": "7728168971",
+                  "name": "La Pergola",
+                  "rating": "4.75",
+                  "description": "Итальянский ресторан на крыше",
+                  "city": "Москва",
+                  "country": "Россия",
+                  "address": "ул. Примерная, 10",
+                  "image_url": "https://cdn.example.com/announcements/abcd1234.jpg"
+                }
+              },
+
+            ]
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+            "message": "Произошла ошибка"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/receipts/history/restaurant
+    metadata:
+      groupName: Чеки
+      groupDescription: 'Всё, что связано с чеками ресторанных посещений'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'История чеков по конкретному ресторану'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      code:
+        name: code
+        description: 'UUID пользователя.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      restaurant_id:
+        name: restaurant_id
+        description: 'UUID ресторана.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      code: architecto
+      restaurant_id: architecto
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+             "data": [
+               {
+                 "id": "019668b1-9b61-72a3-8904-61dcda70cd81",
+                 "total_sum": 156.00,
+                 "points": 1,
+                 "status": "approved",
+                 "created_at": "2025-04-24T18:28:00Z",
+                 "restaurant": {
+                   "id": "b2d5f7a4-3e56-4c1e-9c3b-123456789abc",
+                   "inn": "7728168971",
+                   "name": "Mutabor",
+                   "rating": 4.75,
+                   "description": "Современная кухня с авторским подходом",
+                   "city": "Москва",
+                   "country": "Россия",
+                   "address": "ул. Пречистенка, 27",
+                   "image_url": "https://cdn.example.com/announcements/mutabor.jpg"
+                 }
+               },
+               {
+                 "id": "f3a1d2c4-6e78-90ab-cdef-1234567890ab",
+                 "total_sum": 348.00,
+                 "points": 3,
+                 "status": "approved",
+                 "created_at": "2025-04-23T15:42:00Z",
+                 "restaurant": {
+                   "id": "b2d5f7a4-3e56-4c1e-9c3b-123456789abc",
+                   "inn": "7728168971",
+                   "name": "Mutabor",
+                   "rating": 4.75,
+                   "description": "Современная кухня с авторским подходом",
+                   "city": "Москва",
+                   "country": "Россия",
+                   "address": "ул. Пречистенка, 27",
+                   "image_url": "https://cdn.example.com/announcements/mutabor.jpg"
+                 }
+               }
+             ]
+           }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+            "message": "Произошла ошибка",
+            "error": "Описание ошибки"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
