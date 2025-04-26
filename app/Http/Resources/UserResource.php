@@ -51,7 +51,7 @@ class UserResource extends JsonResource
             'favorite'      => $this->favoriteData,
             'recent'        => $this->recentData,
 
-            'referral_link' => "https://t.me/{$botUsername}?start={$token}",
+            'referral_link' => "t.me/{$botUsername}?start={$token}",
         ];
     }
 }
