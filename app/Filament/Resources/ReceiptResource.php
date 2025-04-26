@@ -120,7 +120,11 @@ class ReceiptResource extends Resource
                         TextInput::make('retail_place')
                             ->label('Точка продажи')
                             ->disabled(),
+                        TextInput::make('inn')
+                            ->label('ИНН')
+                            ->disabled(),
                         TextInput::make('retail_place_address')
+                            ->columnSpanFull()
                             ->label('Адрес точки')
                             ->disabled(),
                     ])
@@ -142,9 +146,6 @@ class ReceiptResource extends Resource
                             ->disabled(),
                         TextInput::make('operation_type')
                             ->label('Тип операции')
-                            ->disabled(),
-                        TextInput::make('inn')
-                            ->label('ИНН')
                             ->disabled(),
                         DateTimePicker::make('receipt_at')
                             ->label('Дата чека')
