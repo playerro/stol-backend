@@ -76,7 +76,7 @@ class ProverkachekaClient
             1 => true,
             0 => throw new DomainException('Чек некорректен'),
             2 => throw new DomainException('Данные чека пока не получены. Попробуйте чуть позже'),
-            3 => throw new DomainException('Превышено кол-во запросов. Попробуйте позже.'),
+            3 => throw new DomainException('Не валидный чек - не получена информация от ФНС.'),
             4 => throw new DomainException('Ожидание перед повторным запросом. Попробуйте позже.'),
             default => throw new DomainException('Не удалось получить данные чека'),
         };

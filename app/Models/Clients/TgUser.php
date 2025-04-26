@@ -87,11 +87,17 @@ class TgUser  extends Model implements HasMedia
     {
         static::creating(function (self $user) {
             do {
-                $token = Str::random(40);
+                $token = Str::random(5);
             } while (self::where('referral_token', $token)->exists());
 
             $user->referral_token = $token;
         });
+    }
+
+    public function getReferralLinkAttribute(): string
+    {
+        $bot    = config('app.telegram.bot_username');
+        return "https://t.me/{$bot}?start={$this->referral_token}";
     }
 
 }
