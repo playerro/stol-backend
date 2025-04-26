@@ -33,6 +33,9 @@ class Restaurant extends Model implements HasMedia
         $this
             ->addMediaCollection('image')
             ->singleFile();
+        $this
+            ->addMediaCollection('logo')
+            ->singleFile();
     }
 
     /**

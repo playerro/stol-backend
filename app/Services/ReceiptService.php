@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Clients\ProverkachekaClient;
 use App\Enums\ReceiptStatus;
 use App\Models\Clients\TgUser;
 use App\Models\Receipt;
@@ -9,18 +10,37 @@ use DomainException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Str;
+use Zxing\QrReader;
 
 class ReceiptService
 {
     private const MAX_FILE_SIZE = 20 * 1024 * 1024;
     private array $allowedExtensions = ['jpg','jpeg','png','pdf','heic','tiff'];
     private const RUBLES_PER_POINT = 100;
+
+    public function __construct(protected ProverkachekaClient $client)
+    {
+    }
+
     public function handleReceipt(TgUser $user, UploadedFile $file): Receipt
     {
         $this->validateFile($file);
 
-        $data = $this->getReceiptData($file);
+        $data = $this->client->recognize($file);
+
+        $already = Receipt::query()
+            ->where('fiscal_number',   $data['fiscal_number'])
+            ->where('fiscal_document', $data['fiscal_document'])
+            ->where('fiscal_sign',     $data['fiscal_sign'])
+            ->exists();
+
+        if ($already) {
+            throw new DomainException('Дубликат чека - такой чек уже был сохранен.');
+        }
+
         $rubles       = $this->extractRubles($data);
         $prelimPoints = $this->calculatePrelimPoints($rubles);
 
@@ -34,16 +54,20 @@ class ReceiptService
             $receipt->addMedia($file)->toMediaCollection('receipts');
 
             $receipt->update([
-                'qr_raw'           => $data['qr_raw'],
-                'fiscal_number'    => $data['fiscal_number'],
-                'fiscal_document'  => $data['fiscal_document'],
-                'fiscal_sign'      => $data['fiscal_sign'],
-                'operation_type'   => $data['operation_type'],
-                'total_sum'        => $rubles,
-                'inn'              => $data['userInn'],
-                'receipt_at'       => $data['dateTime'],
-                'points'           => $prelimPoints,
-                'status'           => ReceiptStatus::PENDING,
+                'qr_raw'                 => $data['qr_raw'],
+                'fiscal_number'          => $data['fiscal_number'],
+                'fiscal_document'        => $data['fiscal_document'],
+                'fiscal_sign'            => $data['fiscal_sign'],
+                'operation_type'         => $data['operation_type'],
+                'total_sum'              => $rubles,
+                'inn'                    => $data['userInn'],
+                'receipt_at'             => $data['dateTime'],
+                'points'                 => $prelimPoints,
+                'status'                 => ReceiptStatus::PENDING,
+                'recognition_data'       => $data['recognition_data']         ?? null,
+                'organization_name'      => $data['organization_name']        ?? null,
+                'retail_place'           => $data['retail_place']             ?? null,
+                'retail_place_address'   => $data['retail_place_address']     ?? null,
             ]);
 
             return $receipt;
@@ -113,6 +137,7 @@ class ReceiptService
             ->first();
 
         return [
+            'label'     => 'Любимое',
             'id'           => $best['restaurant']->id,
             'name'         => $best['restaurant']->name,
             'description' => $best['restaurant']->description,
@@ -174,31 +199,6 @@ class ReceiptService
         if (! in_array($ext, $this->allowedExtensions, true)) {
             throw new DomainException("Неподдерживаемый формат файла: {$ext}.");
         }
-    }
-
-    private function getReceiptData(UploadedFile $file): array
-    {
-        $totalRub = random_int(500, 5000); // 5.00–50.00 ₽
-        $nowIso   = now()->toIso8601String();
-
-        return [
-            'qr_raw'          => 'stub://'.Str::uuid(),
-            'fiscal_number'   => (string) random_int(1e7, 1e8 - 1),
-            'fiscal_document' => (string) random_int(1, 9999),
-            'fiscal_sign'     => (string) random_int(1e9, 1e10 - 1),
-            'operation_type'  => 1,
-            'sum'             => (int) ($totalRub * 100),
-            'userInn'         => '0000000000',
-            'dateTime'        => $nowIso,
-            'items'           => [
-                [
-                    'name'     => 'Товар-заглушка',
-                    'quantity' => 1,
-                    'price'    => $totalRub,
-                    'sum'      => $totalRub,
-                ],
-            ],
-        ];
     }
 
     private function extractRubles(array $data): float

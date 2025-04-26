@@ -30,6 +30,9 @@ class Receipt extends Model implements HasMedia
         'recognition_data',
         'points',
         'status',
+        'organization_name',
+        'retail_place',
+        'retail_place_address',
     ];
 
     protected $casts = [

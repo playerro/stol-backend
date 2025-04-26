@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'proverkacheka' => [
+        'endpoint' => env('PROVERKACHEKA_ENDPOINT', 'https://proverkacheka.com/api/v1/check/get'),
+        'token'    => env('PROVERKACHEKA_TOKEN'),
+        'daily_limit' => env('PROVERKACHEKA_DAILY_LIMIT', 15),
+    ],
+
 ];

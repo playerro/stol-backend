@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReviewController;
@@ -28,4 +29,9 @@ Route::middleware(EnsureUserFromTg::class)
     ->controller(ReviewController::class)
     ->group(function () {
         Route::post('/reviews', 'store');
+    });
+Route::middleware(EnsureUserFromTg::class)
+    ->controller(RestaurantController::class)
+    ->group(function () {
+        Route::get('/restaurants/search', 'search');
     });

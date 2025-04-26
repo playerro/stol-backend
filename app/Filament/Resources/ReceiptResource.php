@@ -10,6 +10,7 @@ use App\Models\Receipt;
 use App\Models\Restaurant;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -22,6 +23,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Arr;
 
 class ReceiptResource extends Resource
 {
@@ -35,6 +37,155 @@ class ReceiptResource extends Resource
     {
         return $form
             ->schema([
+                Section::make('Общее')
+                    ->schema([
+                        Select::make('tg_user_id')
+                            ->relationship('tgUser', 'id')
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        SpatieMediaLibraryFileUpload::make('receipt')
+                            ->label('Файл чека')
+                            ->collection('receipts')
+                            ->downloadable(),
+                        TextInput::make('total_sum')
+                            ->label('Сумма, ₽')
+                            ->numeric()
+                            ->required(),
+                        TextInput::make('points')
+                            ->label('Баллы (предварительно)')
+                            ->numeric()
+                            ->required(),
+                        Select::make('status')
+                            ->label('Статус')
+                            ->options(ReceiptStatus::class)
+                            ->required(),
+                    ])
+                    ->columns(1),
+                Section::make('Ресторан')
+                    ->schema([
+                        Select::make('restaurant_id')
+                            ->label('Ресторан')
+                            ->required()
+                            ->relationship('restaurant', 'name')
+                            ->searchable(['inn', 'name'])
+                            ->preload()
+                            ->suffixAction(
+                                Action::make('addRestaurant')
+                                    ->label('Добавить ресторан')
+                                    ->icon('heroicon-o-plus')
+                                    ->button()
+                                    ->modalHeading('Новый ресторан')
+                                    ->modalWidth('lg')
+                                    ->form([
+                                        TextInput::make('inn')
+                                            ->label('ИНН')
+                                            ->required(),
+                                        TextInput::make('name')
+                                            ->label('Название')
+                                            ->required(),
+                                        SpatieMediaLibraryFileUpload::make('image')
+                                            ->collection('image')
+                                            ->label('Картинка анонса'),
+                                        SpatieMediaLibraryFileUpload::make('logo')
+                                            ->collection('logo')
+                                            ->label('Лого'),
+                                        TextInput::make('rating')
+                                            ->label('Рейтинг (0.00–5.00)')
+                                            ->disabled()
+                                            ->numeric()
+                                            ->step(0.01),
+                                        Textarea::make('description')
+                                            ->label('Описание')
+                                            ->rows(3),
+                                        TextInput::make('city')
+                                            ->label('Город'),
+                                        TextInput::make('address')
+                                            ->label('Адрес'),
+                                    ])
+                                    ->action(function ($livewire, array $data) {
+                                        $restaurant = Restaurant::create($data);
+                                        $livewire->form->fill([
+                                            'restaurant_id' => $restaurant->id,
+                                        ]);
+                                        Notification::make()
+                                            ->title("Ресторан «{$restaurant->name}» создан")
+                                            ->success()
+                                            ->send();
+                                    })
+                            ),
+                        TextInput::make('organization_name')
+                            ->label('Название организации')
+                            ->disabled(),
+                        TextInput::make('retail_place')
+                            ->label('Точка продажи')
+                            ->disabled(),
+                        TextInput::make('retail_place_address')
+                            ->label('Адрес точки')
+                            ->disabled(),
+                    ])
+                    ->columns(2),
+                Section::make('Данные чека')
+                    ->schema([
+                        TextInput::make('qr_raw')
+                            ->label('QR Raw')
+                            ->columnSpanFull()
+                            ->disabled(),
+                        TextInput::make('fiscal_number')
+                            ->label('Фискальный номер')
+                            ->disabled(),
+                        TextInput::make('fiscal_document')
+                            ->label('Фискальный документ')
+                            ->disabled(),
+                        TextInput::make('fiscal_sign')
+                            ->label('Фискальная подпись')
+                            ->disabled(),
+                        TextInput::make('operation_type')
+                            ->label('Тип операции')
+                            ->disabled(),
+                        TextInput::make('inn')
+                            ->label('ИНН')
+                            ->disabled(),
+                        DateTimePicker::make('receipt_at')
+                            ->label('Дата чека')
+                            ->disabled(),
+                    ])
+                    ->columns(2),
+                Section::make('Сырые данные API')
+                    ->schema([
+                        Textarea::make('recognition_data')
+                            ->label('Сырые данные')
+                            ->columnSpanFull()
+                            ->disabled()
+                            ->rows(10)
+                            ->afterStateHydrated(function (Textarea $component) {
+                                $record = $component->getRecord();
+                                $data   = Arr::get($record, 'recognition_data', []);
+                                $component->state(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                            })
+                            ->dehydrated(false),
+                    ])
+                    ->collapsible()
+                    ->collapsed(),
+                Section::make('Отзыв')
+                    ->schema([
+                        TextInput::make('review_rating')
+                            ->label('Оценка пользователя')
+                            ->afterStateHydrated(fn (TextInput $component) => $component->state($component->getRecord()->review?->rating))
+                            ->dehydrated(false)
+                            ->numeric()
+                            ->required()
+                            ->minValue(1)
+                            ->maxValue(5)
+                            ->helperText('От 1 до 5'),
+
+                        Textarea::make('review_text')
+                            ->label('Текст отзыва')
+                            ->afterStateHydrated(fn (Textarea $component) => $component->state($component->getRecord()->review?->text))
+                            ->rows(3)
+                            ->dehydrated(false),
+                    ]),
+                /*
                 Section::make('Чек')->schema([
                     Forms\Components\Select::make('tg_user_id')
                         ->relationship('tgUser', 'id')
@@ -140,7 +291,7 @@ class ReceiptResource extends Resource
                         })
                         ->rows(3)
                         ->dehydrated(false),
-                ])
+                ])*/
             ]);
     }
 

@@ -53,6 +53,12 @@ class ReceiptController extends Controller
         $user = $this->userService->getByUuid($request->input('code'));
         $file = $request->file('receipt');
 
+        if (!$file) {
+            return response()->json([
+                'message' => 'Файл не найден',
+            ], 404);
+        }
+
         if (!$user) {
             return response()->json([
                 'message' => 'Пользователь не найден',
@@ -64,6 +70,7 @@ class ReceiptController extends Controller
             return response()->json([
                 'message' => 'Чек отправлен на модерацию',
                 'points' => $receipt->points,
+                'total_sum' => $receipt->total_sum,
                 'id' => $receipt->id,
             ]);
         } catch (DomainException $e) {

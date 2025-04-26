@@ -109,6 +109,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-restorany" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="restorany">
+                    <a href="#restorany">Рестораны</a>
+                </li>
+                                    <ul id="tocify-subheader-restorany" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="restorany-GETapi-restaurants-search">
+                                <a href="#restorany-GETapi-restaurants-search">Поиск ресторана по имени, ИНН или адресу</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-ceki" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="ceki">
                     <a href="#ceki">Чеки</a>
@@ -134,7 +144,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: April 24, 2025</li>
+        <li>Last updated: April 26, 2025</li>
     </ul>
 </div>
 
@@ -691,7 +701,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"username\": \"b\",
-    \"theme\": \"white-pink\"
+    \"theme\": \"gray-brown\"
 }"
 </code></pre></div>
 
@@ -714,7 +724,7 @@ const headers = {
 
 let body = {
     "username": "b",
-    "theme": "white-pink"
+    "theme": "gray-brown"
 };
 
 fetch(url, {
@@ -876,10 +886,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="theme"                data-endpoint="POSTapi-user"
-               value="white-pink"
+               value="gray-brown"
                data-component="body">
     <br>
-<p>Example: <code>white-pink</code></p>
+<p>Example: <code>gray-brown</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>white-pink</code></li> <li><code>gray-brown</code></li> <li><code>gray-black</code></li></ul>
         </div>
@@ -1056,6 +1066,192 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                 </form>
 
+                <h1 id="restorany">Рестораны</h1>
+
+    <p>Всё, что связано с ресторанами</p>
+
+                                <h2 id="restorany-GETapi-restaurants-search">Поиск ресторана по имени, ИНН или адресу</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-restaurants-search">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/restaurants/search?code=architecto&amp;q=sush" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/restaurants/search"
+);
+
+const params = {
+    "code": "architecto",
+    "q": "sush",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-restaurants-search">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: &quot;uuid&quot;,
+            &quot;inn&quot;: &quot;1234567890&quot;,
+            &quot;name&quot;: &quot;Суши-Сет&quot;,
+            &quot;rating&quot;: &quot;4.50&quot;,
+            &quot;description&quot;: &quot;...&quot;,
+            &quot;city&quot;: &quot;Москва&quot;,
+            &quot;country&quot;: &quot;Россия&quot;,
+            &quot;address&quot;: &quot;ул. Пушкина, д.1&quot;,
+            &quot;logo_url&quot;: &quot;https://...&quot;
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (200, No results):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: []
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Validation error):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;q&quot;: [
+            &quot;The q must be at least 3 characters.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-restaurants-search" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-restaurants-search"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-restaurants-search"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-restaurants-search" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-restaurants-search">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-restaurants-search" data-method="GET"
+      data-path="api/restaurants/search"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-restaurants-search', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-restaurants-search"
+                    onclick="tryItOut('GETapi-restaurants-search');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-restaurants-search"
+                    onclick="cancelTryOut('GETapi-restaurants-search');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-restaurants-search"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/restaurants/search</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-restaurants-search"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-restaurants-search"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="GETapi-restaurants-search"
+               value="architecto"
+               data-component="query">
+    <br>
+<p>UUID пользователя. Пример: 123e4567-e89b-12d3-a456-426614174000 Example: <code>architecto</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="q"                data-endpoint="GETapi-restaurants-search"
+               value="sush"
+               data-component="query">
+    <br>
+<p>Search query. Минимум 3 символа. Example: <code>sush</code></p>
+            </div>
+                </form>
+
                 <h1 id="ceki">Чеки</h1>
 
     <p>Всё, что связано с чеками ресторанных посещений</p>
@@ -1076,7 +1272,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     "http://localhost/api/receipts?code=architecto" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "receipt=@/tmp/phpcqml4fgonrm27zevNRw" </code></pre></div>
+    --form "receipt=@/tmp/phpjj6esv10vcja23aXS8N" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1238,7 +1434,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Example: <code>/tmp/phpcqml4fgonrm27zevNRw</code></p>
+<p>Must be a file. Example: <code>/tmp/phpjj6esv10vcja23aXS8N</code></p>
         </div>
         </form>
 

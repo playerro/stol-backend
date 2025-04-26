@@ -42,6 +42,11 @@ class RestaurantResource extends Resource
                         ->collection('image')
                         ->image()
                         ->maxFiles(1),
+                    SpatieMediaLibraryFileUpload::make('logo')
+                        ->label('Лого')
+                        ->collection('logo')
+                        ->image()
+                        ->maxFiles(1),
                     Forms\Components\TextInput::make('rating')
                         ->numeric()
                         ->disabled()
@@ -81,6 +86,11 @@ class RestaurantResource extends Resource
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
                     ->label('Анонс')
                     ->collection('image')
+                    ->width(50)
+                    ->height(50),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('logo')
+                    ->label('Лого')
+                    ->collection('logo')
                     ->width(50)
                     ->height(50),
                 Tables\Columns\TextColumn::make('created_at')
