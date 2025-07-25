@@ -17,7 +17,6 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $avatar      = $this->getFirstMediaUrl('avatars') ?: null;
-        $username    = $this->app_username ?: ($this->username ?: 'Неизвестный');
         $botUsername = config('app.telegram.bot_username');
         $token       = $this->referral_token;
 
@@ -28,7 +27,8 @@ class UserResource extends JsonResource
 
         return [
             'avatar'        => $avatar,
-            'username'      => $username,
+            'username'      => $this->username ?: 'Неизвестный',
+            'app_username'      => $this->app_username,
             'points'        => $this->points,
             'points_remainder' => $this->points_remainder,
             'daily_streak'  => $this->daily_streak,

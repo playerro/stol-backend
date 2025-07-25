@@ -92,9 +92,14 @@ class TgUserResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('username')
+                    ->label('Username')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('id')
                     ->label('ID')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 SpatieMediaLibraryImageColumn::make('avatars')
                     ->label('Аватар')
                     ->collection('avatars')
@@ -103,10 +108,6 @@ class TgUserResource extends Resource
                 TextColumn::make('telegram_id')
                     ->label('Telegram ID')
                     ->sortable(),
-                TextColumn::make('username')
-                    ->label('Username')
-                    ->sortable()
-                    ->searchable(),
                 TextColumn::make('rank.name')
                     ->label('Ранг')
                     ->sortable(),

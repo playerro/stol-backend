@@ -86,6 +86,22 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-offery" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="offery">
+                    <a href="#offery">Офферы</a>
+                </li>
+                                    <ul id="tocify-subheader-offery" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="offery-GETapi-index">
+                                <a href="#offery-GETapi-index">Список офферов</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="offery-GETapi--offer_id-">
+                                <a href="#offery-GETapi--offer_id-">Детали оффера</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="offery-POSTapi--offer_id--purchase">
+                                <a href="#offery-POSTapi--offer_id--purchase">Покупка оффера</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-polzovateli" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="polzovateli">
                     <a href="#polzovateli">Пользователи</a>
@@ -144,7 +160,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: April 26, 2025</li>
+        <li>Last updated: July 25, 2025</li>
     </ul>
 </div>
 
@@ -487,6 +503,497 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
+                <h1 id="offery">Офферы</h1>
+
+    <p>API для получения списка, деталей и покупки офферов</p>
+
+                                <h2 id="offery-GETapi-index">Список офферов</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-index">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/index?code=architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/index"
+);
+
+const params = {
+    "code": "architecto",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-index">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Premium-подписка&quot;,
+      &quot;description&quot;: &quot;Месяц доступа к премиум-функциям&quot;,
+      &quot;price&quot;: 500,
+      &quot;image_url&quot;: &quot;https://&hellip;&quot;,
+      &quot;category&quot;: &quot;Подписки&quot;,
+      &quot;store&quot;: &quot;Telegram&quot;,
+      &quot;disabled&quot;: false
+    },
+  ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Пользователь не найден&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-index" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-index"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-index"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-index" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-index">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-index" data-method="GET"
+      data-path="api/index"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-index', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-index"
+                    onclick="tryItOut('GETapi-index');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-index"
+                    onclick="cancelTryOut('GETapi-index');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-index"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/index</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-index"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-index"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="GETapi-index"
+               value="architecto"
+               data-component="query">
+    <br>
+<p>UUID пользователя. Пример: 123e4567-e89b-12d3-a456-426614174000 Example: <code>architecto</code></p>
+            </div>
+                </form>
+
+                    <h2 id="offery-GETapi--offer_id-">Детали оффера</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi--offer_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/1?code=architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/1"
+);
+
+const params = {
+    "code": "architecto",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi--offer_id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Premium-подписка&quot;,
+        &quot;description&quot;: &quot;&hellip;&quot;,
+        &quot;price&quot;: 500,
+        &quot;image_url&quot;: &quot;https://&hellip;&quot;,
+        &quot;category&quot;: &quot;Подписки&quot;,
+        &quot;store&quot;: &quot;Telegram&quot;,
+        &quot;disabled&quot;: false
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Пользователь не найден&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi--offer_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi--offer_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi--offer_id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi--offer_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi--offer_id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi--offer_id-" data-method="GET"
+      data-path="api/{offer_id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi--offer_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi--offer_id-"
+                    onclick="tryItOut('GETapi--offer_id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi--offer_id-"
+                    onclick="cancelTryOut('GETapi--offer_id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi--offer_id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/{offer_id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi--offer_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi--offer_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>offer_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="offer_id"                data-endpoint="GETapi--offer_id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the offer. Example: <code>1</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="GETapi--offer_id-"
+               value="architecto"
+               data-component="query">
+    <br>
+<p>UUID пользователя. Example: <code>architecto</code></p>
+            </div>
+                </form>
+
+                    <h2 id="offery-POSTapi--offer_id--purchase">Покупка оффера</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi--offer_id--purchase">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/1/purchase?code=architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/1/purchase"
+);
+
+const params = {
+    "code": "architecto",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi--offer_id--purchase">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Успешно куплено&quot;,
+    &quot;points&quot;: 1200,
+    &quot;purchase_id&quot;: 5
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Пользователь не найден&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Недостаточно баллов&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi--offer_id--purchase" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi--offer_id--purchase"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi--offer_id--purchase"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi--offer_id--purchase" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi--offer_id--purchase">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi--offer_id--purchase" data-method="POST"
+      data-path="api/{offer_id}/purchase"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi--offer_id--purchase', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi--offer_id--purchase"
+                    onclick="tryItOut('POSTapi--offer_id--purchase');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi--offer_id--purchase"
+                    onclick="cancelTryOut('POSTapi--offer_id--purchase');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi--offer_id--purchase"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/{offer_id}/purchase</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi--offer_id--purchase"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi--offer_id--purchase"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>offer_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="offer_id"                data-endpoint="POSTapi--offer_id--purchase"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the offer. Example: <code>1</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="POSTapi--offer_id--purchase"
+               value="architecto"
+               data-component="query">
+    <br>
+<p>UUID пользователя. Example: <code>architecto</code></p>
+            </div>
+                </form>
+
                 <h1 id="polzovateli">Пользователи</h1>
 
     <p>API пользователей</p>
@@ -701,7 +1208,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"username\": \"b\",
-    \"theme\": \"gray-brown\"
+    \"theme\": \"gray-black\"
 }"
 </code></pre></div>
 
@@ -724,7 +1231,7 @@ const headers = {
 
 let body = {
     "username": "b",
-    "theme": "gray-brown"
+    "theme": "gray-black"
 };
 
 fetch(url, {
@@ -886,10 +1393,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="theme"                data-endpoint="POSTapi-user"
-               value="gray-brown"
+               value="gray-black"
                data-component="body">
     <br>
-<p>Example: <code>gray-brown</code></p>
+<p>Example: <code>gray-black</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>white-pink</code></li> <li><code>gray-brown</code></li> <li><code>gray-black</code></li></ul>
         </div>
@@ -1272,7 +1779,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     "http://localhost/api/receipts?code=architecto" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "receipt=@/tmp/phpjj6esv10vcja23aXS8N" </code></pre></div>
+    --form "receipt=@/tmp/php48as2n3980ss5mcAlSy" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1434,7 +1941,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Must be a file. Example: <code>/tmp/phpjj6esv10vcja23aXS8N</code></p>
+<p>Must be a file. Example: <code>/tmp/php48as2n3980ss5mcAlSy</code></p>
         </div>
         </form>
 

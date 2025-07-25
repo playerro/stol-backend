@@ -162,7 +162,7 @@ endpoints:
         name: theme
         description: ''
         required: false
-        example: gray-brown
+        example: gray-black
         type: string
         enumValues:
           - white-pink
@@ -173,7 +173,7 @@ endpoints:
         custom: []
     cleanBodyParameters:
       username: b
-      theme: gray-brown
+      theme: gray-black
     fileParameters: []
     responses:
       -

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\ReceiptController;
@@ -34,4 +35,11 @@ Route::middleware(EnsureUserFromTg::class)
     ->controller(RestaurantController::class)
     ->group(function () {
         Route::get('/restaurants/search', 'search');
+    });
+Route::middleware(EnsureUserFromTg::class)
+    ->controller(OfferController::class)
+    ->group(function () {
+        Route::get('/index', 'index');
+        Route::get('/{offer}', 'show');
+        Route::post('/{offer}/purchase', 'purchase');
     });
