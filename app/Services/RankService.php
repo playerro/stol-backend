@@ -30,6 +30,10 @@ class RankService
                 'rank_id'          => $nextRank->id,
                 'rank_assigned_at' => now(),
             ]);
+            app(NotificationAppService::class)->notifyRankUp(
+                $user,
+                $nextRank->name
+            );
         });
     }
 
@@ -104,7 +108,9 @@ class RankService
         $metrics = $this->gatherMetricsSinceLastRank($user);
 
         return [
+            'current_id'        => $current?->id,
             'current_name'        => $current?->name,
+            'next_id'           => $next?->id,
             'next_name'           => $next?->name,
             'conditions_current'  => $condsCur,
             'conditions_next'     => $condsNext,

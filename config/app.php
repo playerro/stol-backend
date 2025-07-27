@@ -125,5 +125,6 @@ return [
     'web_app_link' => env('WEB_APP_LINK'),
     'telegram' => [
         'bot_username' => env('BOT_USERNAME'),
-    ]
+    ],
+    'scan_expiration_hours' => env('RECEIPT_SCAN_EXPIRATION_HOURS', 50),
 ];

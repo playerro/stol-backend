@@ -42,7 +42,9 @@ class UserResource extends JsonResource
 
             'rank' => [
                 'current'             => $rankData['current_name'],
+                'current_id'             => $rankData['current_id'],
                 'next'                => $rankData['next_name'],
+                'next_id'                => $rankData['next_id'],
                 'conditions_current'  => $rankData['conditions_current'],
                 'conditions_next'     => $rankData['conditions_next'],
                 'progress_current'    => $rankData['progress_current'],
@@ -52,6 +54,9 @@ class UserResource extends JsonResource
             'recent'        => $this->recentData,
 
             'referral_link' => "t.me/{$botUsername}?start={$token}",
+            'tutorial_completed' => $this->tutorial_completed,
+            'tutorial_bonus_given' => $this->tutorial_bonus_given,
+            'tutorial_skipped' => $this->tutorial_skipped,
         ];
     }
 }

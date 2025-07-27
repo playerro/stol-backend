@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TelegramController;
+use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserFromTg;
 use Illuminate\Http\Request;
@@ -39,7 +41,21 @@ Route::middleware(EnsureUserFromTg::class)
 Route::middleware(EnsureUserFromTg::class)
     ->controller(OfferController::class)
     ->group(function () {
-        Route::get('/index', 'index');
-        Route::get('/{offer}', 'show');
-        Route::post('/{offer}/purchase', 'purchase');
+        Route::get('/offers/index', 'index');
+        Route::get('/offers/{offer}', 'show');
+        Route::post('/offers/{offer}/purchase', 'purchase');
+    });
+Route::middleware(EnsureUserFromTg::class)
+    ->controller(NotificationController::class)
+    ->group(function () {
+        Route::get('/notifications/index', 'index');
+        Route::get('/notifications/unread-count', 'unreadCount');
+        Route::post('/notifications/{notification}/read', 'markRead');
+    });
+Route::middleware(EnsureUserFromTg::class)
+    ->controller(TutorialController::class)
+    ->group(function () {
+        Route::get('/tutorial/status', 'status');
+        Route::post('/tutorial/complete', 'complete');
+        Route::post('/tutorial/skip', 'skipTutorial');
     });

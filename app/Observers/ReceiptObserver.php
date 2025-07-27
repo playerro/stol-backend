@@ -6,6 +6,7 @@ namespace App\Observers;
 use App\Enums\ReceiptStatus;
 use App\Models\Clients\TgUser;
 use App\Models\Receipt;
+use App\Services\NotificationAppService;
 use App\Services\RankService;
 use App\Services\ReceiptService;
 use App\Services\ReviewService;
@@ -44,6 +45,12 @@ class ReceiptObserver
                     . "{$awarded} балл" . ($awarded > 1 ? 'ов' : '')
                     . " за отсканированный чек из заведения \"{$place}\"!";
 
+
+                app(NotificationAppService::class)->notifyCheckApproved(
+                    $receipt->tgUser,
+                    $awarded
+                );
+
                 /** @var Nutgram $bot */
                 $bot = app(Nutgram::class);
                 $bot->sendMessage(text: $message, chat_id:  $chatId, parse_mode: ParseMode::HTML);
@@ -55,6 +62,11 @@ class ReceiptObserver
             && $current === ReceiptStatus::REJECTED->value
         ) {
             try {
+                app(NotificationAppService::class)->notifyCheckDeclined(
+                    $receipt->tgUser,
+                    '❌ Ой-ой! Ваш последний чек был отклонен. Попробуйте еще раз или используйте другой чек.'
+                );
+
                 $chatId  = $receipt->tgUser->telegram_id;
                 $message = "<b>ОШИБКА</b>: ❌ Ой-ой! Ваш последний чек был отклонен. "
                     . "Попробуйте еще раз или используйте другой чек.";

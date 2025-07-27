@@ -6,7 +6,7 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/index
+    uri: api/offers/index
     metadata:
       groupName: Офферы
       groupDescription: 'API для получения списка, деталей и покупки офферов'
@@ -76,7 +76,7 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: 'api/{offer_id}'
+    uri: 'api/offers/{offer_id}'
     metadata:
       groupName: Офферы
       groupDescription: 'API для получения списка, деталей и покупки офферов'
@@ -155,7 +155,7 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'api/{offer_id}/purchase'
+    uri: 'api/offers/{offer_id}/purchase'
     metadata:
       groupName: Офферы
       groupDescription: 'API для получения списка, деталей и покупки офферов'

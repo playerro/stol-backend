@@ -7,7 +7,7 @@ use App\Models\Receipt;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Properties\ParseMode;
 
-class NotificationService
+class NotificationBotService
 {
     public function __construct(protected Nutgram $bot)
     {

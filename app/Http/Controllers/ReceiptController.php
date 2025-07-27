@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Resources\ReceiptHistoryResource;
 use App\Http\Resources\ReceiptResource;
-use App\Services\NotificationService;
+use App\Services\NotificationBotService;
 use App\Services\ReceiptService;
 use App\Services\TgUserService;
 use DomainException;
@@ -22,7 +22,7 @@ class ReceiptController extends Controller
 {
     public function __construct(protected ReceiptService      $receiptService,
                                 protected TgUserService       $userService,
-                                protected NotificationService $notificationService
+                                protected NotificationBotService $notificationService
     )
     {
     }

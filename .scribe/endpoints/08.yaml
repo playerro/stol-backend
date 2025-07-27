@@ -1,16 +1,20 @@
-name: Офферы
-description: 'API для получения списка, деталей и покупки офферов'
+name: Обцчение
+description: |-
+
+  API обучения
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/offers/index
+    uri: api/tutorial/status
     metadata:
-      groupName: Офферы
-      groupDescription: 'API для получения списка, деталей и покупки офферов'
+      groupName: Обцчение
+      groupDescription: |-
+
+        API обучения
       subgroup: ''
       subgroupDescription: ''
-      title: 'Список офферов'
+      title: 'Статус обучения'
       description: ''
       authenticated: false
       custom: []
@@ -19,87 +23,6 @@ endpoints:
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
-    queryParameters:
-      code:
-        name: code
-        description: 'UUID пользователя. Пример: 123e4567-e89b-12d3-a456-426614174000'
-        required: true
-        example: architecto
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanQueryParameters:
-      code: architecto
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: |-
-          {
-            "data": [
-              {
-                "id": 1,
-                "name": "Premium-подписка",
-                "description": "Месяц доступа к премиум-функциям",
-                "price": 500,
-                "image_url": "https://…",
-                "category": "Подписки",
-                "store": "Telegram",
-                "disabled": false
-              },
-            ]
-          }
-        headers: []
-        description: ''
-        custom: []
-      -
-        status: 404
-        content: |-
-          {
-            "message": "Пользователь не найден"
-          }
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/offers/{offer_id}'
-    metadata:
-      groupName: Офферы
-      groupDescription: 'API для получения списка, деталей и покупки офферов'
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Детали оффера'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      offer_id:
-        name: offer_id
-        description: 'The ID of the offer.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      offer_id: 1
     queryParameters:
       code:
         name: code
@@ -121,16 +44,8 @@ endpoints:
         status: 200
         content: |-
           {
-            "data": {
-              "id": 1,
-              "name": "Premium-подписка",
-              "description": "…",
-              "price": 500,
-              "image_url": "https://…",
-              "category": "Подписки",
-              "store": "Telegram",
-              "disabled": false
-            }
+            "tutorial_completed": false,
+            "bonus_available": true
           }
         headers: []
         description: ''
@@ -153,32 +68,23 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: 'api/offers/{offer_id}/purchase'
+    uri: api/tutorial/complete
     metadata:
-      groupName: Офферы
-      groupDescription: 'API для получения списка, деталей и покупки офферов'
+      groupName: Обцчение
+      groupDescription: |-
+
+        API обучения
       subgroup: ''
       subgroupDescription: ''
-      title: 'Покупка оффера'
+      title: 'Завершить обучение'
       description: ''
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      offer_id:
-        name: offer_id
-        description: 'The ID of the offer.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-    cleanUrlParameters:
-      offer_id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters:
       code:
         name: code
@@ -200,9 +106,17 @@ endpoints:
         status: 200
         content: |-
           {
-            "message": "Успешно куплено",
-            "points": 1200,
-            "purchase_id": 5
+            "message": "Бонус начислен",
+            "points": 10
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: |-
+          {
+            "message": "Бонус уже получен"
           }
         headers: []
         description: ''
@@ -216,12 +130,52 @@ endpoints:
         headers: []
         description: ''
         custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/tutorial/skip
+    metadata:
+      groupName: Обцчение
+      groupDescription: |-
+
+        API обучения
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Пропустить обучение'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      code:
+        name: code
+        description: 'UUID пользователя.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      code: architecto
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
       -
-        status: 422
-        content: |-
-          {
-            "message": "Недостаточно баллов"
-          }
+        status: 200
+        content: '{ "message": "Обучение пропущено" }'
         headers: []
         description: ''
         custom: []

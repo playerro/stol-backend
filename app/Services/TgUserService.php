@@ -20,6 +20,8 @@ class TgUserService
         'streak_days' => 'daily_streak',
     ];
 
+    private const STREAK_WINDOW_SECONDS = 24 * 60 * 60 + 15 * 60;
+
     public function __construct(protected ReceiptService $receiptService)
     {
     }
@@ -152,15 +154,21 @@ class TgUserService
     {
         $now = Carbon::now();
 
-        if (! $user->last_visit_at
-            || $user->last_visit_at->diffInSeconds($now) >= 24 * 60 * 60
-        ) {
-            $user->daily_streak = $user->daily_streak + 1;
-            $user->last_visit_at = $now;
-            $user->save();
-        }
-    }
+        if (! $user->last_visit_at) {
+            $user->daily_streak = 1;
+        } else {
+            $diffSeconds = $user->last_visit_at->diffInSeconds($now);
 
+            if ($diffSeconds <= self::STREAK_WINDOW_SECONDS) {
+                $user->daily_streak++;
+            } else {
+                $user->daily_streak = 1;
+            }
+        }
+
+        $user->last_visit_at = $now;
+        $user->save();
+    }
     public function updateProfile(string $userId, array $data): TgUser
     {
         $user = TgUser::where('id', $userId)->firstOrFail();

@@ -38,7 +38,9 @@ class UserController extends Controller
      *      "created_at": "2024-12-01T14:23:45.000000Z",
      *      "rank": {
      *        "current": "Silver",
+     *        "current_id": "1",
      *        "next": "Gold",
+     *        "next_id": "2",
      *        "conditions_current": { "scans": 10, "sum_spent": 5000, "streak_days": 7 },
      *        "conditions_next":    { "scans": 15, "sum_spent": 15000, "streak_days": 15 },
      *        "progress_current":   { "scans": 3,  "sum_spent": 1200.50, "streak_days": 2 }

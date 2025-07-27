@@ -52,6 +52,12 @@ class RestaurantResource extends Resource
                         ->disabled()
                         ->step(0.01)
                         ->default(0.00),
+                    Forms\Components\TextInput::make('multiplier')
+                    ->numeric()
+                        ->step(0.01)
+                        ->label('Коэффициент')
+                        ->default(1.00)
+                        ->required(),
                     Forms\Components\Textarea::make('description')
                         ->columnSpanFull(),
                     Forms\Components\TextInput::make('city')
@@ -82,6 +88,10 @@ class RestaurantResource extends Resource
                         'warning' => fn ($state): bool => $state >= 2 && $state < 4,
                         'success' => fn ($state): bool => $state >= 4,
                     ])
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('multiplier')
+                ->numeric()
+                    ->label('Коэффициент')
                     ->sortable(),
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
                     ->label('Анонс')

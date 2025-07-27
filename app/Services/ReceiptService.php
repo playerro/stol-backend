@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Clients\ProverkachekaClient;
 use App\Enums\ReceiptStatus;
+use App\Helpers\UserHelper;
 use App\Models\Clients\TgUser;
 use App\Models\Receipt;
+use Carbon\Carbon;
 use DomainException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -20,6 +22,8 @@ class ReceiptService
     private const MAX_FILE_SIZE = 20 * 1024 * 1024;
     private array $allowedExtensions = ['jpg','jpeg','png','pdf','heic','tiff'];
     private const RUBLES_PER_POINT = 100;
+
+    private const REFERRAL_PERCENT   = 10;
 
     public function __construct(protected ProverkachekaClient $client)
     {
@@ -39,6 +43,13 @@ class ReceiptService
 
         if ($already) {
             throw new DomainException('Дубликат чека - такой чек уже был сохранен.');
+        }
+
+        $expirationHours   = config('app.scan_expiration_hours');
+        $receiptDatetime = Carbon::parse($data['dateTime']);
+
+        if ($receiptDatetime->lt(Carbon::now()->subHours($expirationHours))) {
+            throw new DomainException('Время загрузки чека истекло');
         }
 
         $rubles       = $this->extractRubles($data);
@@ -94,8 +105,10 @@ class ReceiptService
 
         return DB::transaction(function () use ($user, $receipt) {
             $combined      = $user->points_remainder + $receipt->total_sum;
-            $awardPoints   = intdiv((int) floor($combined), self::RUBLES_PER_POINT);
-            $newRemainder  = $combined - $awardPoints * self::RUBLES_PER_POINT;
+            $basePoints    = intdiv((int) floor($combined), self::RUBLES_PER_POINT);
+            $multiplier    = $receipt->restaurant->multiplier ?? 1.0;
+            $awardPoints   = (int) floor($basePoints * $multiplier);
+            $newRemainder  = $combined - $basePoints * self::RUBLES_PER_POINT;
 
             $user->increment('points', $awardPoints);
             $user->points_remainder = $newRemainder;
@@ -109,6 +122,16 @@ class ReceiptService
                 : 0;
 
             $user->save();
+            $receipt->points = $awardPoints;
+            $receipt->saveQuietly();
+
+            if ($referrer = $user->referrer) {
+                $this->applyReferralPoints(
+                    $referrer,
+                    $awardPoints,
+                    $user
+                );
+            }
 
             return $awardPoints;
         });
@@ -213,5 +236,25 @@ class ReceiptService
     private function calculatePrelimPoints(float $rubles): int
     {
         return intdiv((int) floor($rubles), self::RUBLES_PER_POINT);
+    }
+
+    private function applyReferralPoints(
+        TgUser $referrer,
+        int $awardPoints,
+        TgUser $referredUser
+    ): void {
+        $referralPoints = intdiv(
+            $awardPoints * self::REFERRAL_PERCENT,
+            100
+        );
+
+        if ($referralPoints > 0) {
+            $referrer->increment('points', $referralPoints);
+            app(NotificationAppService::class)->notifyReferralCredit(
+                $referrer,
+                $referralPoints,
+                UserHelper::getDisplayName($referredUser)
+            );
+        }
     }
 }

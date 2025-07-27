@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOfferPurchaseRequest;
 use App\Models\Offer;
 use App\Models\OfferPurchaseLog;
+use App\Services\NotificationAppService;
 use App\Services\TgUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
  */
 class OfferController extends Controller
 {
-    public function __construct(protected TgUserService $userService)
+    public function __construct(protected TgUserService $userService,  protected NotificationAppService $notificationService )
     {
     }
 
@@ -146,6 +147,11 @@ class OfferController extends Controller
             'tg_user_id'  => $user->id,
             'offer_id' => $offer->id,
         ]);
+
+        $this->notificationService->notifyPurchase(
+            $user,
+            $offer->name
+        );
 
         return response()->json([
             'message'     => 'Успешно куплено',

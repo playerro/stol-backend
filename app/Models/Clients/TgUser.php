@@ -42,7 +42,10 @@ class TgUser  extends Model implements HasMedia
         'referral_token',
         'referrer_id',
         'points_remainder',
-        'rank_assigned_at'
+        'rank_assigned_at',
+        'tutorial_completed',
+        'tutorial_bonus_given',
+        'tutorial_skipped'
     ];
 
     protected $casts = [
@@ -54,6 +57,9 @@ class TgUser  extends Model implements HasMedia
         'rank_id'        => 'integer',
         'points'         => 'integer',
         'points_remainder' => 'integer',
+        'tutorial_completed'   => 'boolean',
+        'tutorial_bonus_given' => 'boolean',
+        'tutorial_skipped'     => 'boolean',
     ];
 
     public function rank(): BelongsTo

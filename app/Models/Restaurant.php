@@ -22,10 +22,12 @@ class Restaurant extends Model implements HasMedia
         'city',
         'country',
         'address',
+        'multiplier',
     ];
 
     protected $casts = [
         'rating' => 'decimal:2',
+        'multiplier' => 'decimal:2',
     ];
 
     public function registerMediaCollections(): void
