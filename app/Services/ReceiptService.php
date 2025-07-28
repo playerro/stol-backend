@@ -125,6 +125,12 @@ class ReceiptService
             $receipt->points = $awardPoints;
             $receipt->saveQuietly();
 
+            app(NotificationAppService::class)->notifyCheckApproved(
+                $receipt->tgUser,
+                $receipt->total_sum,
+                $awardPoints
+            );
+
             if ($referrer = $user->referrer) {
                 $this->applyReferralPoints(
                     $referrer,
@@ -252,8 +258,7 @@ class ReceiptService
             $referrer->increment('points', $referralPoints);
             app(NotificationAppService::class)->notifyReferralCredit(
                 $referrer,
-                $referralPoints,
-                UserHelper::getDisplayName($referredUser)
+                $referralPoints
             );
         }
     }

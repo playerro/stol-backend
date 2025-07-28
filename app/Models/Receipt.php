@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ReceiptStatus;
+use App\Enums\RejectionReason;
 use App\Models\Clients\TgUser;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +34,7 @@ class Receipt extends Model implements HasMedia
         'organization_name',
         'retail_place',
         'retail_place_address',
+        'decline_reason'
     ];
 
     protected $casts = [
@@ -47,6 +49,7 @@ class Receipt extends Model implements HasMedia
         'recognition_data'=> 'array',
         'points'          => 'integer',
         'status'          => ReceiptStatus::class,
+        'decline_reason' =>  RejectionReason::class,
     ];
 
     public function registerMediaCollections(): void

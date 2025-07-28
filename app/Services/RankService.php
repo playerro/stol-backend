@@ -32,7 +32,7 @@ class RankService
             ]);
             app(NotificationAppService::class)->notifyRankUp(
                 $user,
-                $nextRank->name
+                $nextRank
             );
         });
     }

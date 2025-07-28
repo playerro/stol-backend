@@ -4,6 +4,7 @@
 namespace App\Observers;
 
 use App\Enums\ReceiptStatus;
+use App\Enums\RejectionReason;
 use App\Models\Clients\TgUser;
 use App\Models\Receipt;
 use App\Services\NotificationAppService;
@@ -46,11 +47,6 @@ class ReceiptObserver
                     . " за отсканированный чек из заведения \"{$place}\"!";
 
 
-                app(NotificationAppService::class)->notifyCheckApproved(
-                    $receipt->tgUser,
-                    $awarded
-                );
-
                 /** @var Nutgram $bot */
                 $bot = app(Nutgram::class);
                 $bot->sendMessage(text: $message, chat_id:  $chatId, parse_mode: ParseMode::HTML);
@@ -64,7 +60,7 @@ class ReceiptObserver
             try {
                 app(NotificationAppService::class)->notifyCheckDeclined(
                     $receipt->tgUser,
-                    '❌ Ой-ой! Ваш последний чек был отклонен. Попробуйте еще раз или используйте другой чек.'
+                    $receipt->decline_reason
                 );
 
                 $chatId  = $receipt->tgUser->telegram_id;

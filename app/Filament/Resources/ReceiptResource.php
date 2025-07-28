@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ReceiptStatus;
+use App\Enums\RejectionReason;
 use App\Filament\Resources\ReceiptResource\Pages;
 use App\Filament\Resources\ReceiptResource\Pages\EditReceipt;
 use App\Filament\Resources\ReceiptResource\RelationManagers;
@@ -45,6 +46,12 @@ class ReceiptResource extends Resource
                             ->label('Статус')
                             ->options(ReceiptStatus::class)
                             ->required()
+                            ->reactive(),
+                        Select::make('decline_reason')
+                        ->label('Причина отклонения')
+                            ->options(RejectionReason::options())
+                            ->required(fn(callable $get) => $get('status') === ReceiptStatus::REJECTED->value)
+                            ->visible(fn(callable $get)  => $get('status') === ReceiptStatus::REJECTED->value)
                             ->reactive(),
 
                         Select::make('tg_user_id')
