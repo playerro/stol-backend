@@ -59,7 +59,7 @@ class OfferResource extends Resource
                             ->image()
                             ->required(),
                         SpatieMediaLibraryFileUpload::make('images')
-                            ->collection('preview')
+                            ->collection('images')
                             ->label('Изображения')
                             ->image()
                             ->required(),

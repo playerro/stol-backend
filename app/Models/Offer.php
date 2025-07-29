@@ -17,7 +17,6 @@ class Offer extends Model implements HasMedia
         'name',
         'description',
         'price',
-        'image',
     ];
 
     public function registerMediaCollections(): void
