@@ -60,7 +60,7 @@ class OfferController extends Controller
                 'description' => $offer->description,
                 'price'       => $offer->price,
                 'preview_url'   => $offer->getFirstMediaUrl('preview'),
-                'image_url'   => $offer->getFirstMediaUrl('image'),
+                'image_url'   => $offer->getFirstMediaUrl('images'),
                 'category'    => $offer->category->name,
                 'store'       => $offer->store->name,
                 'disabled'    => $offer->price > $user->points,

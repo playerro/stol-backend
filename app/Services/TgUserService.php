@@ -152,17 +152,17 @@ class TgUserService
 
     protected function updateDailyStreak(TgUser $user): void
     {
-        $now = Carbon::now();
+        $now   = Carbon::now();
+        $last  = $user->last_visit_at;
 
-        if (! $user->last_visit_at) {
+        if (! $last) {
             $user->daily_streak = 1;
         } else {
-            $diffSeconds = $user->last_visit_at->diffInSeconds($now);
-
-            if ($diffSeconds <= self::STREAK_WINDOW_SECONDS) {
-                $user->daily_streak++;
-            } else {
+            $secondsSince = $last->diffInSeconds($now);
+            if ($secondsSince > self::STREAK_WINDOW_SECONDS) {
                 $user->daily_streak = 1;
+            } elseif (! $last->isSameDay($now)) {
+                $user->daily_streak++;
             }
         }
 
