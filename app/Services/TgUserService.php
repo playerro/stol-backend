@@ -50,7 +50,6 @@ class TgUserService
             $user = TgUser::create([
                 'telegram_id' => $tgUser?->id,
                 'username' => $tgUser?->username,
-                'app_username' => $tgUser?->username,
                 'first_name' => $tgUser?->first_name,
                 'last_name' => $tgUser?->last_name,
             ]);
