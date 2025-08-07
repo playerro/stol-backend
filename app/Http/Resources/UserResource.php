@@ -28,6 +28,7 @@ class UserResource extends JsonResource
         return [
             'avatar'        => $avatar,
             'app_username'      => $this->app_username ?: 'Неизвестный',
+            'username'      => $this->username ?: 'Неизвестный',
             'points'        => $this->points,
             'points_remainder' => $this->points_remainder,
             'daily_streak'  => $this->daily_streak,

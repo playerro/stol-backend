@@ -16,7 +16,7 @@ class LeaderboardEntryResource extends JsonResource
             'position' => $this->position,
             'avatar' => $this->getFirstMediaUrl('avatars') ?: null,
             'username' => $this->app_username
-                ?: ($this->username ?: 'Неизвестный'),
+                ?: ($this->first_name ?: 'Неизвестный'),
             'points' => $this->points,
         ];
     }
