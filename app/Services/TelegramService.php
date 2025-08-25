@@ -57,6 +57,7 @@ class TelegramService
     {
         $webAppInfo = $this->userService->getAppLink($user->id);
         $bot->setChatMenuButton(chat_id: $user->telegram_id, menu_button: new MenuButtonWebApp('STOL', $webAppInfo));
+
         $bot->sendMessage(
             text: <<<HTML
 <b>Добро пожаловать в STOL!👋</b>
@@ -71,8 +72,8 @@ class TelegramService
 HTML,
             parse_mode: 'HTML',
             reply_markup: InlineKeyboardMarkup::make()->addRow(
-                InlineKeyboardButton::make(text: 'Открыть приложение',
-                    web_app: $webAppInfo)
+                InlineKeyboardButton::make(text: 'Открыть приложение', web_app: $webAppInfo),
+                InlineKeyboardButton::make(text: 'Поддержка', callback_data: 'support.start') //изменено
             )
         );
     }

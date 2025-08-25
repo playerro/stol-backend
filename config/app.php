@@ -127,4 +127,5 @@ return [
         'bot_username' => env('BOT_USERNAME'),
     ],
     'scan_expiration_hours' => env('RECEIPT_SCAN_EXPIRATION_HOURS', 50),
+    'manager_username' => env('MANAGER_USERNAME'),
 ];

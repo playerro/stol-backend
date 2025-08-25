@@ -224,10 +224,10 @@ class ReceiptService
         if ($file->getSize() > self::MAX_FILE_SIZE) {
             throw new DomainException('Файл слишком большой (максимум 20 МБ).');
         }
-        $ext = strtolower($file->getClientOriginalExtension());
+        /*$ext = strtolower($file->getClientOriginalExtension());
         if (! in_array($ext, $this->allowedExtensions, true)) {
             throw new DomainException("Неподдерживаемый формат файла: {$ext}.");
-        }
+        }*/
     }
 
     private function extractRubles(array $data): float

@@ -6,9 +6,11 @@ use App\Http\Requests\StoreOfferPurchaseRequest;
 use App\Models\Offer;
 use App\Models\OfferPurchaseLog;
 use App\Services\NotificationAppService;
+use App\Services\NotificationBotService;
 use App\Services\TgUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @group Офферы
@@ -16,7 +18,10 @@ use Illuminate\Http\Request;
  */
 class OfferController extends Controller
 {
-    public function __construct(protected TgUserService $userService,  protected NotificationAppService $notificationService )
+    public function __construct(protected TgUserService $userService,
+                                protected NotificationAppService $notificationService,
+                                protected NotificationBotService $botService
+    )
     {
     }
 
@@ -152,6 +157,16 @@ class OfferController extends Controller
             $user,
             $offer->name
         );
+
+        try {
+            if (($offer->store?->name ?? null) === 'Золотое Яблоко') {
+                $this->botService->notifyGoldenApplePurchase($user, $offer, $log->id);
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Ошибка при отправке инструкции по получению карты: '.$e->getMessage(),
+            ], 500);
+        }
 
         return response()->json([
             'message'     => 'Успешно куплено',

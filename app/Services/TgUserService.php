@@ -184,4 +184,9 @@ class TgUserService
         return $user;
     }
 
+    public function getByTelegramId(int|string $telegramId): ?TgUser
+    {
+        return TgUser::where('telegram_id', $telegramId)->first();
+    }
+
 }
